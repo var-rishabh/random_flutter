@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:random_flutter/models/expense.dart';
+// utils
+import 'package:random_flutter/utils/models/expense.dart';
+
+// widgets
+import 'package:random_flutter/widgets/dialog.dart';
 
 class ExpenseForm extends StatefulWidget {
   final void Function(Expense) addExpense;
@@ -17,6 +21,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
   DateTime? _selectedDate = DateTime.now();
   Category? _selectedCategory = Category.others;
 
+  // selectDate method
   void selectDate() async {
     final pickedDate = await showDatePicker(
       context: context,
@@ -29,33 +34,23 @@ class _ExpenseFormState extends State<ExpenseForm> {
     });
   }
 
+  // select category method
   void selectCategory(Category category) {
     setState(() {
       _selectedCategory = category;
     });
   }
 
+  // submit form method
   void _submitForm() {
     final title = _titleController.text;
     final amount = double.parse(_amountController.text);
 
     if (title.isEmpty || amount <= 0 || _selectedDate == null) {
-      showDialog(
+      CustomDialog.showErrorDialog(
         context: context,
-        builder: (ctx) {
-          return AlertDialog(
-            title: const Text('Invalid Input'),
-            content: const Text('Please enter valid title, amount and date.'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(ctx);
-                },
-                child: const Text('Okay'),
-              ),
-            ],
-          );
-        },
+        title: 'Invalid Input',
+        content: 'Please enter valid data.',
       );
       return;
     }

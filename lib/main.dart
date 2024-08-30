@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:random_flutter/screens/expenses/expenses.dart';
+
+// screens
+import 'package:random_flutter/screens/expenses.dart';
 
 void main() {
   runApp(
