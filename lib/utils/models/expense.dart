@@ -50,6 +50,7 @@ String formattedDateShort(DateTime date) {
   return '${date.day} ${months[date.month].substring(0, 3)}, ${date.year}';
 }
 
+// expense model
 class Expense {
   final String id;
   final String title;
@@ -65,4 +66,24 @@ class Expense {
   }) : id = uuid.v4();
 
   String get formatDate => formattedDate(date);
+}
+
+// expense bucket for stats
+class ExpenseBucket {
+  final Category category;
+  final List<Expense> expenses;
+
+  ExpenseBucket({
+    required this.category,
+    required this.expenses,
+  });
+
+  ExpenseBucket.getCategorizedExpenses(List<Expense> allExpenses, this.category)
+      : expenses = allExpenses
+            .where((expense) => expense.category == category)
+            .toList();
+
+  double get totalExpenses {
+    return expenses.fold(0, (total, expense) => total + expense.amount);
+  }
 }

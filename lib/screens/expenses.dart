@@ -12,6 +12,7 @@ import 'package:random_flutter/utils/models/expense.dart';
 import 'package:random_flutter/widgets/app_bar.dart';
 import 'package:random_flutter/widgets/no_data.dart';
 import 'package:random_flutter/widgets/snack_bar.dart';
+import 'package:random_flutter/widgets/chart/chart.dart';
 
 class Expenses extends StatefulWidget {
   const Expenses({super.key});
@@ -26,6 +27,7 @@ class _ExpensesState extends State<Expenses> {
   // open add expense modal
   void _openAddExpenseModal() {
     showModalBottomSheet(
+      useSafeArea: true,
       context: context,
       isScrollControlled: true,
       builder: (ctx) => ExpenseForm(_addExpense),
@@ -72,12 +74,19 @@ class _ExpensesState extends State<Expenses> {
           horizontal: 20,
           vertical: 10,
         ),
-        child: _sampleExpenses.isEmpty
-            ? const NoDataWidget()
-            : ExpenseList(
-                expenses: _sampleExpenses.reversed.toList(),
-                deleteExpense: _deleteExpense,
-              ),
+        child: Column(
+          children: [
+            Chart(expenses: _sampleExpenses),
+            _sampleExpenses.isEmpty
+                ? const NoDataWidget()
+                : Expanded(
+                    child: ExpenseList(
+                      expenses: _sampleExpenses.reversed.toList(),
+                      deleteExpense: _deleteExpense,
+                    ),
+                  ),
+          ],
+        ),
       ),
     );
   }
