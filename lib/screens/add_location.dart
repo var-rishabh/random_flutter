@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:random_flutter/model/places.dart';
 import 'package:random_flutter/provider/location.dart';
 
+import 'package:random_flutter/widgets/open_camera.dart';
+
 class AddLocation extends StatefulWidget {
   const AddLocation({super.key});
 
@@ -16,6 +18,13 @@ class _AddLocationState extends State<AddLocation> {
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +69,7 @@ class _AddLocationState extends State<AddLocation> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 TextFormField(
                   controller: _descriptionController,
                   decoration: const InputDecoration(
@@ -73,7 +82,9 @@ class _AddLocationState extends State<AddLocation> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
+                const OpenCamera(),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue.shade800,

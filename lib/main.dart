@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:random_flutter/provider/image.dart';
 import 'package:random_flutter/provider/location.dart';
 import 'package:random_flutter/screens/home.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => LocationProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => UserImageProvider()),
+        ChangeNotifierProvider(create: (context) => LocationProvider()),
+      ],
       child: const MyApp(),
     ),
   );
@@ -18,13 +22,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'FavLocation',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const HomeScreen(),
+      home: HomeScreen(),
     );
   }
 }
