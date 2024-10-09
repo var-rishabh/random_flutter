@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:uuid/uuid.dart';
 
 Places placesFromJson(String str) => Places.fromJson(json.decode(str));
 
@@ -10,13 +11,11 @@ class Places {
   String description;
 
   Places({
-    required this.id,
     required this.name,
     required this.description,
-  });
+  }) : id = const Uuid().v1();
 
   factory Places.fromJson(Map<String, dynamic> json) => Places(
-    id: json["id"],
     name: json["name"],
     description: json["description"],
   );

@@ -11,6 +11,8 @@ class LocationProvider extends ChangeNotifier {
 
   void addPlace(Places place) {
     _places.add(place);
+    print(place.name);
+    print(place.description);
     notifyListeners();
   }
 

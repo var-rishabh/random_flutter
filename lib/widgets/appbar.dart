@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:random_flutter/screens/add_location.dart';
+
 class KAppBar extends StatefulWidget implements PreferredSizeWidget {
   @override
   final Size preferredSize;
@@ -24,7 +26,14 @@ class _KAppBarState extends State<KAppBar> {
         IconButton(
           icon: const Icon(Icons.add),
           color: Colors.white,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AddLocation(),
+              ),
+            );
+          },
         ),
       ],
     );
