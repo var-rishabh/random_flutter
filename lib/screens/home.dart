@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:random_flutter/provider/image.dart';
 import 'package:random_flutter/provider/location.dart';
 import 'package:random_flutter/widgets/appbar.dart';
 
@@ -9,6 +9,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserImageProvider userImageProvider =
+        Provider.of<UserImageProvider>(context);
     final LocationProvider locationProvider =
         Provider.of<LocationProvider>(context);
 
@@ -23,6 +25,15 @@ class HomeScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return ListTile(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.file(
+                        locationProvider.places[index].image!,
+                        width: 50,
+                        height: 50,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                     title: Text(locationProvider.places[index].name),
                     subtitle: Text(locationProvider.places[index].description),
                     trailing: IconButton(

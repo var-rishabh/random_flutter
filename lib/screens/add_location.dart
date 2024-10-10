@@ -105,6 +105,7 @@ class _AddLocationState extends State<AddLocation> {
                             image: userImageProvider.image,
                           );
                           locationProvider.addPlace(place);
+                          userImageProvider.removeImage();
                           Navigator.pop(context);
                         }
                       },
