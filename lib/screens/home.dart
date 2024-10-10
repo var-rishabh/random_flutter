@@ -12,8 +12,6 @@ class HomeScreen extends StatelessWidget {
     final LocationProvider locationProvider =
         Provider.of<LocationProvider>(context);
 
-    // print('=====================${locationProvider?.places[0].name}');
-
     return Scaffold(
       backgroundColor: Colors.blue.shade50,
       appBar: const KAppBar(),

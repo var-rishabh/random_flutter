@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:random_flutter/model/places.dart';
+import 'package:random_flutter/provider/image.dart';
 import 'package:random_flutter/provider/location.dart';
-
 import 'package:random_flutter/widgets/open_camera.dart';
 
 class AddLocation extends StatefulWidget {
@@ -28,6 +27,8 @@ class _AddLocationState extends State<AddLocation> {
 
   @override
   Widget build(BuildContext context) {
+    final UserImageProvider userImageProvider =
+        Provider.of<UserImageProvider>(context);
     final LocationProvider locationProvider =
         Provider.of<LocationProvider>(context);
 
@@ -41,6 +42,7 @@ class _AddLocationState extends State<AddLocation> {
           ),
           onPressed: () {
             Navigator.pop(context);
+            userImageProvider.removeImage();
           },
         ),
         title: const Text(
@@ -83,28 +85,43 @@ class _AddLocationState extends State<AddLocation> {
                   },
                 ),
                 const SizedBox(height: 20),
-                const OpenCamera(),
+                Row(
+                  children: [
+                    const OpenCamera(),
+                    const SizedBox(width: 15),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue.shade800,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          final Places place = Places(
+                            name: _nameController.text,
+                            description: _descriptionController.text,
+                            image: userImageProvider.image,
+                          );
+                          locationProvider.addPlace(place);
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: const Text('Add Location'),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 20),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue.shade800,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                if (userImageProvider.image != null)
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Image.file(
+                      userImageProvider.image!,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      final Places place = Places(
-                        name: _nameController.text,
-                        description: _descriptionController.text,
-                      );
-                      locationProvider.addPlace(place);
-                      Navigator.pop(context);
-                    }
-                  },
-                  child: const Text('Add Location'),
-                ),
               ],
             ),
           ),
