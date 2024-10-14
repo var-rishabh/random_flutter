@@ -97,22 +97,21 @@ public class MainActivity extends FlutterActivity {
     }
 
     private String getLocation() {
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        try {
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                if (location != null) {
-                    double latitude = location.getLatitude();
-                    double longitude = location.getLongitude();
-                    return "Lat: " + latitude + ", Lon: " + longitude;
-                } else {
-                    return "Location not available.";
+        LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Location location = null;
+        if (checkLocationPermission()) {
+            if (isLocationEnabled()) {
+                location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                if (location == null) {
+                    location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 }
             }
-        } catch (Exception e) {
-            return "Failed to get location.";
         }
-        return null;
+        if (location != null) {
+            return location.getLatitude() + ", " + location.getLongitude();
+        } else {
+            return "Location not available.";
+        }
     }
 
 //    @Override

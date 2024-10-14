@@ -39,7 +39,7 @@ class _NativeLocationState extends State<NativeLocation> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        color: Colors.greenAccent,
+        color: Colors.blueGrey,
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       width: double.infinity,
@@ -62,7 +62,7 @@ class _NativeLocationState extends State<NativeLocation> {
           Text(
             _location,
             style: const TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
