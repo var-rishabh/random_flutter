@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.provider.Settings;
+import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -113,32 +114,4 @@ public class MainActivity extends FlutterActivity {
             return "Location not available.";
         }
     }
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        if (requestCode == REQUEST_CODE_LOCATION_PERMISSION) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                if (isLocationEnabled()) {
-//                    new MethodChannel(getFlutterEngine().getDartExecutor().getBinaryMessenger(), LOCATION_CHANNEL)
-//                            .invokeMethod("getUserLocation", null);
-//                } else {
-//                    enableLocationServices();
-//                }
-//            }
-//        }
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//    }
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == REQUEST_CODE_LOCATION_SETTINGS) {
-//            if (isLocationEnabled()) {
-//                new MethodChannel(getFlutterEngine().getDartExecutor().getBinaryMessenger(), LOCATION_CHANNEL)
-//                        .invokeMethod("getUserLocation", null);
-//            } else {
-//                enableLocationServices();
-//            }
-//        }
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
 }
