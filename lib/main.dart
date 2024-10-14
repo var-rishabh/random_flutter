@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:random_flutter/battery.dart';
+import 'package:random_flutter/location.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,6 +38,7 @@ class MyHomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             NativeBattery(),
+            NativeLocation(),
           ],
         ),
       ),
