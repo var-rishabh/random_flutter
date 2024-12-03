@@ -23,13 +23,13 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
-        centerTitle: true,
+        backgroundColor: Colors.brown.shade900,
         title: const Text(
-          "Native Features",
+          "RUNO X SIP",
           style: TextStyle(color: Colors.white),
         ),
       ),
+      backgroundColor: Colors.brown.shade100,
       body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
