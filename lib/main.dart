@@ -16,8 +16,8 @@ class _MyAppState extends State<MyApp> {
   bool _isCompressing = false;
 
   void askPermission() async {
-    if (await Permission.storage.request().isDenied) {
-      await Permission.storage.request();
+    if (await Permission.audio.request().isDenied) {
+      await Permission.audio.request();
     }
   }
 
@@ -30,23 +30,28 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData.dark(),
       home: Scaffold(
+        appBar: AppBar(
+          title: Text('Audio Compressor'),
+        ),
         body: Center(
           child: _isCompressing
-              ? CircularProgressIndicator()
+              ? CircularProgressIndicator() // Show loader if compressing
               : ElevatedButton(
                   onPressed: () async {
                     setState(() {
-                      _isCompressing = true;
+                      _isCompressing = true; // Start showing loader
                     });
 
                     try {
                       final String? result = await _channel.invokeMethod('compressAudio', {
                         'inputPath': "/storage/emulated/0/Download/gori.aac",
                         'outputPath': "/storage/emulated/0/Download/output.aac",
-                        'bitRate': 8000,
+                        'bitRate': 12,
                       });
-                      print("Compressed audio path: $result");
+
+                      print(result);
                     } on PlatformException catch (e) {
                       print("Failed to compress audio: '${e.message}'.");
                     } finally {
