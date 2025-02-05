@@ -37,18 +37,19 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Center(
           child: _isCompressing
-              ? CircularProgressIndicator() // Show loader if compressing
+              ? CircularProgressIndicator()
               : ElevatedButton(
                   onPressed: () async {
                     setState(() {
-                      _isCompressing = true; // Start showing loader
+                      _isCompressing = true;
                     });
 
                     try {
-                      final String? result = await _channel.invokeMethod('compressAudio', {
+                      final int? result = await _channel.invokeMethod('compressAudio', {
+                        // 'inputPath': "/storage/sdcard/Download/gori.aac",
+                        // 'outputPath': "/storage/sdcard/Download/output.aac"
                         'inputPath': "/storage/emulated/0/Download/gori.aac",
-                        'outputPath': "/storage/emulated/0/Download/output.aac",
-                        'bitRate': 12,
+                        'outputPath': "/storage/emulated/0/Download/output.aac"
                       });
 
                       print(result);
@@ -56,7 +57,7 @@ class _MyAppState extends State<MyApp> {
                       print("Failed to compress audio: '${e.message}'.");
                     } finally {
                       setState(() {
-                        _isCompressing = false; // Hide loader after compression
+                        _isCompressing = false;
                       });
                     }
                   },
