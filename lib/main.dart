@@ -45,10 +45,10 @@ class _MyAppState extends State<MyApp> {
                     });
 
                     try {
-                      final int? result = await _channel.invokeMethod('compressAudio', {
+                      final int result = await _channel.invokeMethod('compressAudio', {
                         // 'inputPath': "/storage/sdcard/Download/gori.aac",
                         // 'outputPath': "/storage/sdcard/Download/output.aac"
-                        'inputPath': "/storage/emulated/0/Download/gori.aac",
+                        'inputPath': "/storage/emulated/0/Download/test.mp3",
                         'outputPath': "/storage/emulated/0/Download/output.aac"
                       });
 

@@ -1,11 +1,15 @@
 package com.example.random_flutter;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.arthenica.ffmpegkit.FFmpegKit;
+import com.arthenica.ffmpegkit.FFmpegSession;
 import com.arthenica.ffmpegkit.ReturnCode;
+import com.arthenica.ffmpegkit.SessionState;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -15,6 +19,7 @@ public class AudioCompressorService implements MethodChannel.MethodCallHandler {
     private static final String BITRATE = "12k";
     private static final String CHANNELS = "1";
     private static final String SAMPLE_RATE = "8000";
+    private static final long TIMEOUT_MS = 60 * 1000; // 1 minute timeout
 
     @Override
     public void onMethodCall(MethodCall call, @NonNull MethodChannel.Result result) {
@@ -39,20 +44,27 @@ public class AudioCompressorService implements MethodChannel.MethodCallHandler {
 
         Log.d(TAG, "Executing FFmpeg command: " + command);
 
-        try {
-            ReturnCode returnCode = FFmpegKit.execute(command).getReturnCode();
+        FFmpegSession session = FFmpegKit.executeAsync(command, sessionResult -> {
+            ReturnCode returnCode = sessionResult.getReturnCode();
 
             if (ReturnCode.isSuccess(returnCode)) {
                 Log.d(TAG, "Compression successful: " + outputPath);
                 result.success(0);
             } else {
-                String errorMessage = "Compression failed with code: " + returnCode;
-                Log.e(TAG, errorMessage);
+                Log.e(TAG, "Compression failed with code: " + returnCode);
                 result.success(1);
             }
-        } catch (Exception e) {
-            Log.e(TAG, "Error during compression", e);
-            result.success(1);
-        }
+        });
+
+        Handler timeoutHandler = new Handler(Looper.getMainLooper());
+        Runnable timeoutRunnable = () -> {
+            if (session.getState() == SessionState.RUNNING) {
+                Log.e(TAG, "Compression timed out. Aborting...");
+                FFmpegKit.cancel(session.getSessionId());
+                result.success(1);
+            }
+        };
+
+        timeoutHandler.postDelayed(timeoutRunnable, TIMEOUT_MS);
     }
 }
